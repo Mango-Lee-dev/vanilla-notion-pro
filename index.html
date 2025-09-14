@@ -80,6 +80,85 @@
         <!-- Hamburger Icon -->
         ☰
       </button>
+
+      <!-- Navbar -->
+      <header class="navbar">
+        <div class="row">
+          <button
+            id="menuBtn"
+            class="menu-btn"
+            title="Open Sidebar"
+            aria-label="Open Sidebar"
+          >
+            <!-- Hamburger Icon -->
+            ☰
+          </button>
+          <div id="breadcrumbs" class="breadcrumbs">Welcome</div>
+        </div>
+        <div class="row-end">
+          <button id="openFavoritesModal" class="btn-small" title="Favorites">
+            ⭐️ Favorites
+          </button>
+          <button id="starBtn" class="btn-small" title="Star/Unstar">☆</button>
+          <button id="actionSearch" class="btn-small" title="New SuPage">
+            ➕ Sub Page
+          </button>
+          <button id="actionSearch" class="btn-small" title="Search">🔎</button>
+          <button id="actionSettings" class="btn-small" title="Settings">
+            ⚙️
+          </button>
+        </div>
+      </header>
+
+      <!-- Main -->
+      <main>
+        <div class="doc-canvas">
+          <!-- Header -->
+          <div class="doc-header">
+            <button id="iconBtn" class="doc-icon-btn" title="Change Icon">
+              <span class="doc-icon-btn-icon">📄</span>
+            </button>
+            <div class="title-wrap">
+              <input
+                id="titleInput"
+                class="title-input"
+                placeholder="Untitled"
+              />
+              <div id="docMeta" class="meta">
+                - <span id="lastEdited"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Toolbar -->
+          <div
+            id="toolbar"
+            class="toolbar"
+            role="toolbar"
+            aria-label="Editor toolbar"
+          >
+            <button class="tbtn" data-cmd="bold"><b>B</b></button>
+            <button class="tbtn" data-cmd="italic"><i>I</i></button>
+            <button class="tbtn" data-cmd="underline"><u>U</u></button>
+            <span class="sep"></span>
+            <button class="tbtn" data-format="P">P</button>
+            <button class="tbtn" data-format="H1">H1</button>
+            <button class="tbtn" data-format="H2">H2</button>
+            <button class="tbtn" data-format="H3">H3</button>
+            <span class="sep"></span>
+            <button id="bulletsBtn" class="tbtn">• List</button>
+            <button id="numbersBtn" class="tbtn">1. List</button>
+            <button id="todoBtn" class="tbtn">☐ To-do</button>
+            <button id="codeBtn" class="tbtn">{}</button>
+            <button id="quoteBtn" class="tbtn">❝</button>
+          </div>
+
+          <!-- Editor -->
+          <div id="editor" class="editor" contenteditable="true"></div>
+        </div>
+
+        <!-- Trash Popover -->
+      </main>
     </div>
   </body>
 </html>
