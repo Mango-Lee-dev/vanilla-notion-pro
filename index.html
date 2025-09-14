@@ -16,5 +16,70 @@
     />
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body></body>
+  <body>
+    <div class="app">
+      <!-- Sidebar -->
+      <aside id="sidebar" class="sidebar">
+        <div class="inner">
+          <button id="collapseBtn" class="collapse-btn" title="Collapse">
+            <<
+          </button>
+
+          <!-- User -->
+          <div class="user-box">
+            <div class="avatar">/</div>
+            <div class="user-meta">
+              <strong> Guest </strong>
+              <small>guest@example.com</small>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="nav-items">
+            <div class="item" id="actionSearch">
+              <span>🔎 Search</span>
+              <div class="right">
+                <span class="kbd">⌘</span><span class="kbd">K</span>
+              </div>
+            </div>
+            <div class="item" id="actionSettings">
+              <span>⚙️ Settings</span>
+            </div>
+            <div class="item" id="actionCreateRoot">
+              <span>➕ New Page</span>
+            </div>
+          </div>
+
+          <!-- Documents -->
+          <div class="group-title">All Pages</div>
+          <div id="docListRoot" class="doc-list"></div>
+          <div class="nav-items">
+            <div class="item" id="actionAddPage">
+              <span>📄 Add a Page</span>
+            </div>
+          </div>
+
+          <!-- Trash Trigger -->
+          <div class="nav-items">
+            <div class="item" id="trashTrigger">
+              <span>🗑️ Trash</span>
+            </div>
+          </div>
+
+          <!-- Resize handler -->
+          <div
+            class="resizeHandler"
+            class="resize-handle"
+            title="Drag to resize / Double click to reset"
+          ></div>
+        </div>
+      </aside>
+
+      <!-- Peek Button when collapsed -->
+      <button id="sidebarPeekBtn" class="peek-btn" title="Open Sidebar">
+        <!-- Hamburger Icon -->
+        ☰
+      </button>
+    </div>
+  </body>
 </html>
