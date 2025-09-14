@@ -156,9 +156,127 @@
           <!-- Editor -->
           <div id="editor" class="editor" contenteditable="true"></div>
         </div>
-
-        <!-- Trash Popover -->
       </main>
     </div>
+    <!-- Trash Popover -->
+    <div id="trashPopover" class="popover" style="width: 360px">
+      <div class="search">
+        <span>🔎</span>
+        <input id="trashSearch" placeholder="Filter by page title..." />
+      </div>
+      <div id="trashList" class="trash-list" role="listbox"></div>
+    </div>
+
+    <!-- Emoji Picker -->
+    <div id="emojiPicker" class="popover" style="width: 360px">
+      <div class="emoji-grid" id="emojiGrid"></div>
+    </div>
+
+    <!-- Search Overlay -->
+    <div id="searchOverlay" class="overlay">
+      <div class="search-modal">
+        <input
+          id="searchInput"
+          class="search-input"
+          placeholder="Search pages..."
+        />
+        <div id="searchResults" class="search-results"></div>
+        <div class="hint">↑/↓ navigate, Enter open, ESC close</div>
+      </div>
+    </div>
+
+    <!-- Settings Overlay -->
+    <div id="settingsOverlay" class="overlay">
+      <div class="settings-modal">
+        <div class="settings-header">
+          <h3>Settings</h3>
+          <button id="settingsClose" class="btn-small">Close</button>
+        </div>
+
+        <div class="settings-grid">
+          <!-- Row: Theme -->
+          <div>
+            <div>
+              <div class="label">Use theme</div>
+              <div class="sublabel">Toggle between light and dark modes</div>
+            </div>
+            <label class="switch">
+              <input id="themeToggle" type="checkbox" />
+              <span>Light</span>
+            </label>
+          </div>
+
+          <!-- Row: Export -->
+          <div class="settings-row">
+            <div>
+              <div class="label">Export data</div>
+              <div class="sublabel">Download your notes as JSON</div>
+            </div>
+            <button id="exportBtn" class="btn small">Export</button>
+          </div>
+
+          <!-- Row: Import -->
+          <div class="settings-row">
+            <div>
+              <div class="label">Import data</div>
+              <div class="sublabel">Restore from a JSON backup</div>
+            </div>
+            <label
+              class="btn small"
+              style="
+                position: relative;
+                overflow: hidden;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              Import
+              <input
+                id="importFile"
+                type="file"
+                accept="application/json"
+                style="
+                  position: absolute;
+                  inset: 0;
+                  opacity: 0;
+                  cursor: pointer;
+                "
+              />
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Favorites Overlay -->
+    <div id="favoritesOverlay" class="overlay">
+      <div class="favorites-modal">
+        <div
+          class="row"
+          style="justify-content: space-between; margin-bottom: 8px"
+        >
+          <h3 style="margin: 0">Favorites</h3>
+          <button id="favoritesClose" class="btn small">Close</button>
+        </div>
+        <div id="favoritesListModal" class="favorites-list"></div>
+      </div>
+    </div>
+
+    <!-- Confirm Overlay -->
+    <div id="modalOverlay" class="modal-overlay">
+      <div class="modal">
+        <h3 id="modalTitle">Confirm</h3>
+        <div id="modalMessage" style="margin: 8px 0 12px"></div>
+        <div class="row-end">
+          <button id="modalCancel" class="btn">Cancel</button>
+          <button id="modalConfirm" class="btn danger">Confirm</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toasts -->
+    <div id="toasts" class="toasts"></div>
+    <script src="app.js"></script>
   </body>
 </html>
