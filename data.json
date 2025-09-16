@@ -1,0 +1,197 @@
+{
+  "version": 1,
+  "activeId": "welcome",
+  "expanded": {
+    "welcome": true,
+    "guides": true,
+    "tutorials": true,
+    "engineering": true,
+    "product": true
+  },
+  "docs": [
+    {
+      "id": "welcome",
+      "parentId": null,
+      "title": "Welcome to Mini Notion",
+      "icon": "📘",
+      "starred": true,
+      "createdAt": "2025-07-01T09:10:00.000Z",
+      "updatedAt": "2025-08-28T10:05:00.000Z",
+      "content": "<h1>Welcome 👋</h1><p>이 프로젝트는 <strong>Vanilla JS</strong>로 만든 미니 문서 편집기입니다.</p><ul><li>사이드바 트리</li><li>자동 저장</li><li>즐겨찾기 &amp; 이모지</li><li>검색 / 설정 / 내보내기·불러오기</li></ul><blockquote>프레임워크의 근본은 브라우저와 자바스크립트입니다.</blockquote>"
+    },
+    {
+      "id": "quickstart",
+      "parentId": "welcome",
+      "title": "Quick Start",
+      "icon": "⚡",
+      "starred": false,
+      "createdAt": "2025-07-01T09:12:00.000Z",
+      "updatedAt": "2025-08-20T08:30:00.000Z",
+      "content": "<h2>시작하기</h2><ol><li>좌측에서 <em>New Page</em> 클릭</li><li>제목 입력(F2 지원)</li><li>본문을 작성하면 0.4s 디바운스로 자동 저장</li></ol><p><code>Ctrl/⌘+K</code>로 빠른 검색, <code>Ctrl/⌘+Shift+N</code>으로 새 문서!</p>"
+    },
+    {
+      "id": "guides",
+      "parentId": null,
+      "title": "Guides",
+      "icon": "📚",
+      "starred": true,
+      "createdAt": "2025-07-02T11:00:00.000Z",
+      "updatedAt": "2025-08-27T14:40:00.000Z",
+      "content": "<h1>Guides</h1><p>구성요소별 사용설명서 모음입니다.</p>"
+    },
+    {
+      "id": "editor-guide",
+      "parentId": "guides",
+      "title": "Editor & Autosave",
+      "icon": "📝",
+      "starred": false,
+      "createdAt": "2025-07-02T11:05:00.000Z",
+      "updatedAt": "2025-08-26T13:15:00.000Z",
+      "content": "<h2>에디터</h2><p>입력 이벤트는 디바운스(400ms) 뒤 저장됩니다.</p><ul><li><b>Bold</b>, <i>Italic</i>, <code>&lt;pre&gt;</code>, 인용구, 목록</li><li>체크박스 할 일: <label><input type='checkbox' checked> 샘플 할 일</label></li></ul>"
+    },
+    {
+      "id": "toolbar-guide",
+      "parentId": "guides",
+      "title": "Formatting Toolbar",
+      "icon": "🛠️",
+      "starred": false,
+      "createdAt": "2025-07-02T11:10:00.000Z",
+      "updatedAt": "2025-08-25T09:50:00.000Z",
+      "content": "<h2>서식 툴바</h2><p><code>execCommand</code> 기반으로 블록/인라인 서식을 적용합니다.</p>"
+    },
+    {
+      "id": "ui-patterns",
+      "parentId": "guides",
+      "title": "UI Patterns",
+      "icon": "🎯",
+      "starred": false,
+      "createdAt": "2025-07-03T08:30:00.000Z",
+      "updatedAt": "2025-08-18T16:20:00.000Z",
+      "content": "<h2>드롭다운/모달/팝오버</h2><p>단일 열림 보장, 바깥 클릭 닫기, ESC 핸들링, 위치 보정.</p>"
+    },
+    {
+      "id": "search",
+      "parentId": null,
+      "title": "Quick Search",
+      "icon": "🔎",
+      "starred": false,
+      "createdAt": "2025-07-04T10:00:00.000Z",
+      "updatedAt": "2025-08-24T09:00:00.000Z",
+      "content": "<h1>검색</h1><p>입력 즉시 필터링, ↑/↓/Enter 키로 탐색, ESC로 닫기.</p>"
+    },
+    {
+      "id": "favorites",
+      "parentId": null,
+      "title": "Favorites",
+      "icon": "⭐",
+      "starred": false,
+      "createdAt": "2025-07-04T10:10:00.000Z",
+      "updatedAt": "2025-08-21T07:45:00.000Z",
+      "content": "<h1>즐겨찾기</h1><p>별 토글, 모달에서 정렬/해제/바로 이동.</p>"
+    },
+    {
+      "id": "trash",
+      "parentId": null,
+      "title": "Trash",
+      "icon": "🗑️",
+      "starred": false,
+      "createdAt": "2025-07-05T09:00:00.000Z",
+      "updatedAt": "2025-08-10T12:00:00.000Z",
+      "content": "<h1>휴지통</h1><p>복원/영구 삭제, 검색, 위치 자동 보정.</p>"
+    },
+    {
+      "id": "settings",
+      "parentId": null,
+      "title": "Settings",
+      "icon": "⚙️",
+      "starred": false,
+      "createdAt": "2025-07-06T07:30:00.000Z",
+      "updatedAt": "2025-08-29T08:00:00.000Z",
+      "content": "<h1>설정</h1><p>라이트/다크 테마 전환(즉시 적용 &amp; 영속화), Export/Import(JSON).</p>"
+    },
+    {
+      "id": "tutorials",
+      "parentId": null,
+      "title": "Tutorials",
+      "icon": "🎓",
+      "starred": false,
+      "createdAt": "2025-07-07T11:20:00.000Z",
+      "updatedAt": "2025-08-16T14:55:00.000Z",
+      "content": "<h1>Tutorials</h1><p>핵심 시나리오별 실습.</p>"
+    },
+    {
+      "id": "tut-shortcuts",
+      "parentId": "tutorials",
+      "title": "Keyboard Shortcuts",
+      "icon": "⌨️",
+      "starred": false,
+      "createdAt": "2025-07-07T11:22:00.000Z",
+      "updatedAt": "2025-08-05T09:33:00.000Z",
+      "content": "<h2>단축키</h2><ul><li><code>Ctrl/⌘+K</code>: 검색</li><li><code>Ctrl/⌘+Shift+N</code>: 새 문서</li><li><code>F2</code>: 이름 바꾸기</li></ul>"
+    },
+    {
+      "id": "engineering",
+      "parentId": null,
+      "title": "Engineering Notes",
+      "icon": "🧪",
+      "starred": true,
+      "createdAt": "2025-07-08T08:00:00.000Z",
+      "updatedAt": "2025-08-22T18:40:00.000Z",
+      "content": "<h1>Engineering</h1><p>디바운스 저장, 애니메이션 타이밍, 미디어쿼리 처리.</p><pre>function saveEditorDebounced(){ /* 400ms */ }</pre>"
+    },
+    {
+      "id": "perf",
+      "parentId": "engineering",
+      "title": "Performance Tips",
+      "icon": "🚀",
+      "starred": false,
+      "createdAt": "2025-07-08T08:10:00.000Z",
+      "updatedAt": "2025-08-12T11:11:00.000Z",
+      "content": "<h2>성능</h2><p>부분 렌더, 가상화, requestAnimationFrame, requestIdleCallback 고려.</p>"
+    },
+    {
+      "id": "product",
+      "parentId": null,
+      "title": "Product Planning",
+      "icon": "🧭",
+      "starred": false,
+      "createdAt": "2025-07-10T10:00:00.000Z",
+      "updatedAt": "2025-08-15T15:00:00.000Z",
+      "content": "<h1>Product</h1><p>로드맵, 태그, 전체 본문 검색, 협업(CRDT) 후보.</p>"
+    },
+    {
+      "id": "roadmap",
+      "parentId": "product",
+      "title": "Roadmap 2025",
+      "icon": "🗓️",
+      "starred": true,
+      "createdAt": "2025-07-10T10:05:00.000Z",
+      "updatedAt": "2025-08-28T07:45:00.000Z",
+      "content": "<h2>Roadmap</h2><ul><li>Q3: 태그 &amp; 필터</li><li>Q4: 전체 검색, 협업 프리뷰</li></ul>"
+    }
+  ],
+  "trash": [
+    {
+      "id": "old-changelog",
+      "parentId": null,
+      "__origParentId": "engineering",
+      "title": "Changelog (Old)",
+      "icon": "🗒️",
+      "starred": false,
+      "createdAt": "2025-06-20T09:00:00.000Z",
+      "updatedAt": "2025-07-30T09:00:00.000Z",
+      "content": "<h1>구버전 변경 기록</h1><p>보관용.</p>"
+    },
+    {
+      "id": "draft-ideas",
+      "parentId": null,
+      "__origParentId": "product",
+      "title": "Draft Ideas",
+      "icon": "💡",
+      "starred": false,
+      "createdAt": "2025-07-12T12:00:00.000Z",
+      "updatedAt": "2025-08-01T12:00:00.000Z",
+      "content": "<h1>아이디어 초안</h1><ul><li>컬러 테마 프리셋</li><li>최근 사용 이모지</li></ul>"
+    }
+  ]
+}
