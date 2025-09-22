@@ -91,3 +91,32 @@ function save() {
 function uid() {
   return Math.random().toString(36).slice(2, 11);
 }
+
+function childrenOf(pid) {
+  return state.docs
+    .filter((doc) => doc.parentId === pid)
+    .sort((a, b) => a.order - b.order || a.title.localeCompare(b.title));
+}
+
+function findDoc(id) {
+  return state.docs.find((doc) => doc.id === id);
+}
+
+function maxOrder(pid) {
+  const kids = childrenOf(pid);
+  return kids.length ? Math.max(...kids.map((doc) => doc.order)) + 1 : 0;
+}
+
+function existsInDocs(id) {
+  return !!findDoc(id);
+}
+
+function isDescendant(id, maybeAncestorId) {
+  if (!id || !maybeAncestorId) return false;
+  let cur = findDoc(id);
+  while (cur && cur.parentId) {
+    if (cur.parentId === maybeAncestorId) return true;
+    cur = findDoc(cur.parentId);
+  }
+  return false;
+}
