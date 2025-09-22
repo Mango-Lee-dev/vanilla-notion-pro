@@ -56,3 +56,38 @@ const state = {
   activeId: null,
   isMobile: matchMedia("(max-width: 768px)").matches,
 };
+
+function load() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    //  처음 실행하는 상태
+    if (!raw) {
+      state.docs = defaultDocs.slice();
+      state.trash = [];
+      return;
+    }
+    const data = JSON.parse(raw);
+    state.docs = data.docs || defaultDocs.slice();
+    state.trash = data.trash || [];
+    state.expanded = data.expanded || {};
+    state.activeId = data.activeId || null;
+  } catch (error) {
+    console.warn("Failed to load data from localStorage", error);
+    state.docs = defaultDocs.slice();
+    state.trash = [];
+  }
+}
+
+function save() {
+  const data = {
+    docs: state.docs,
+    trash: state.trash,
+    expanded: state.expanded,
+    activeId: state.activeId,
+  };
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+function uid() {
+  return Math.random().toString(36).slice(2, 11);
+}
