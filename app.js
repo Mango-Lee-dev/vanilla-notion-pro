@@ -120,3 +120,83 @@ function isDescendant(id, maybeAncestorId) {
   }
   return false;
 }
+
+function createDoc({ title = "Untitled", parentId = null, afterId = null }) {
+  const id = uid();
+  let order = maxOrder(parentId); //  부모 문서의 최대 순서
+  if (afterId) {
+    const sibs = childrenOf(parentId);
+    const idx = sibs.findIndex((doc) => doc.id === afterId);
+    order = idx >= 0 ? sibs[idx].order + 0.5 : order;
+  }
+
+  const doc = {
+    id,
+    title,
+    icon: "",
+    parentId,
+    content: "",
+    starred: false,
+    order,
+    createdAt: Date.now(),
+    updatedAt: Date.now(),
+  };
+  state.docs.push(doc);
+  normalizeOrders(parentId);
+  save();
+  return id;
+}
+
+function updateDoc(id, patch) {
+  const d = findDoc(id);
+  if (!d) return;
+  Object.assign(d, patch, { updatedAt: Date.now() });
+  save();
+}
+
+function archiveDoc(id) {
+  const toArchive = [id, ...descendantsOf(id).map((doc) => doc.id)];
+  toArchive.forEach((did) => {
+    const idx = state.docs.findIndex((doc) => doc.id === did);
+    if (idx > -1) {
+      state.docs[idx].__origParentId = state.docs[idx].parentId ?? null;
+      state.trash.push(state.docs[idx]);
+      state.docs.splice(idx, 1);
+    }
+  });
+  save();
+}
+
+function restoreDoc(id) {
+  const idx = state.trash.findIndex((doc) => doc.id === id);
+  if (idx === -1) return;
+
+  const doc = state.trash[idx];
+  state.trash.splice(idx, 1);
+
+  const desiredParentId =
+    doc.__origParentId !== undefined ? doc.__origParentId : doc.parentId;
+
+  if (desiredParentId && !existsInDocs(desiredParentId)) {
+    doc.parentId = null;
+    doc.__restoredOrphan = true;
+    doc.__origParentId = desiredParentId;
+    toast("부모가 휴지통에 있어 루트로 복원되었습니다.", "success");
+  } else {
+    doc.parentId = desiredParentId ?? null;
+    delete doc.__restoredOrphan;
+  }
+
+  state.docs.push(doc);
+  normalizeOrders(doc.parentId);
+  reattachOrphansFor(doc.id);
+  save();
+}
+
+function removeDoc(id) {
+  const targetIds = new Set([id, ...descendantsOf(id).map((doc) => doc.id)]);
+  for (let i = state.trash.length - 1; i >= 0; i--) {
+    if (targetIds.has(state.trash[i].id)) state.trash.splice(i, 1);
+  }
+  save();
+}
