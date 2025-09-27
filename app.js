@@ -200,3 +200,66 @@ function removeDoc(id) {
   }
   save();
 }
+
+function moveDoc(srcId, targetId, pos) {
+  if (!srcId || !targetId || srcId === targetId) return;
+
+  if (isDescendant(targetId, srcId)) return;
+
+  const src = findDoc(srcId);
+  const tgt = findDoc(targetId);
+  if (!src || !tgt) return;
+
+  if (pos === "inside") {
+    const oldParent = src.parentId;
+    src.parentId = tgt.id;
+    src.order = maxOrder(tgt.id);
+    normalizeOrders(oldParent);
+    normalizeOrders(tgt.id);
+  } else {
+    const newParent = tgt.parentId;
+    const oldParent = src.parentId;
+    src.parentId = newParent;
+    src.order = pos === "before" ? tgt.order - 0.5 : tgt.order + 0.5;
+    normalizeOrders(newParent);
+    normalizeOrders(oldParent);
+  }
+
+  src.updatedAt = Date.now();
+  save();
+}
+
+function normalizeOrders(parentId) {
+  const list = childrenOf(parentId);
+  list.forEach((doc, index) => {
+    doc.order = index;
+  });
+}
+
+function descendantsOf(id) {
+  const res = [];
+  const walk = (pid) => {
+    state.docs
+      .filter((doc) => doc.parentId === pid)
+      .forEach((doc) => {
+        res.push(doc);
+        walk(doc.id);
+      });
+  };
+  walk(id);
+  return res;
+}
+
+function reattachOrphansFor(parentId) {
+  let changed = false;
+  state.docs.forEach((doc) => {
+    if (doc.__restoredOrphan && doc.__origParentId === parentId) {
+      doc.parentId = parentId;
+      delete doc.__restoredOrphan;
+      changed = true;
+    }
+  });
+  if (changed) {
+    normalizeOrders(parentId);
+  }
+}
