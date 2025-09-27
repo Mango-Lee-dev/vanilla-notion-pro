@@ -263,3 +263,44 @@ function reattachOrphansFor(parentId) {
     normalizeOrders(parentId);
   }
 }
+
+//  ===============================================
+//  DOM Helpers
+//  ===============================================
+
+const $ = (selector) => document.querySelector(selector);
+const $$ = (selector) => Array.from(document.querySelectorAll(selector));
+
+function el(tag, opts = {}) {
+  const element = document.createElement(tag);
+  Object.assign(element, opts);
+  return element;
+}
+
+function toast(msg, type = "") {
+  const wrap = $("#toasts");
+  if (!wrap) return;
+  const toast = el("div", { className: `toast ${type}` });
+  toast.textContent = msg;
+  wrap.appendChild(toast);
+  setTimeout(() => {
+    toast.style.opacity = "0";
+    setTimeout(() => toast.remove(), 200);
+  }, 1800);
+}
+
+function fmtDate(ts) {
+  const d = new Date(ts);
+  return d.toLocaleString();
+}
+
+//  Layout refs
+const sidebar = $("#sidebar");
+const collapseBtn = $("#collapseBtn");
+const resizeHandle = $("#resizeHandle");
+const menuBtn = $("#menuBtn");
+const sidebarPeekBtn = $("#sidebarPeekBtn");
+const docListRoot = $("#docListRoot");
+const breadcrumbs = $("#breadcrumbs");
+const starBtn = $("#starBtn");
+const newChildBtn = $("#newChildBtn");
