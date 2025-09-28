@@ -304,3 +304,120 @@ const docListRoot = $("#docListRoot");
 const breadcrumbs = $("#breadcrumbs");
 const starBtn = $("#starBtn");
 const newChildBtn = $("#newChildBtn");
+
+function renderTrees() {
+  renderTree();
+  renderFavorites();
+}
+
+function renderTree() {
+  if (!docListRoot) return;
+  docListRoot.innerHTML = "";
+  const roots = childrenOf(null);
+  if (roots.length === 0) {
+    const p = el("p", {
+      className: "muted",
+      textContent: "No pages available",
+    });
+    docListRoot.appendChild(p);
+  }
+  roots.forEach((doc) => {
+    docListRoot.appendChild(renderNode(doc, 0));
+  });
+}
+
+function renderNode(doc, level) {
+  const wrap = el("div");
+  const row = el("div", {
+    className: "tree-row",
+    draggable: true,
+  });
+  row.dataset.id = doc.id;
+  if (state.activeId === doc.id) row.classList.add("active");
+  row.style.paddingLeft = 12 + level * 12 + "px";
+
+  const careBtn = el("div", { className: "caret", title: "Expand/Collapse" });
+  const hasChildren = childrenOf(doc.id).length > 0;
+  careBtn.textContent = hasChildren
+    ? state.expanded[doc.id]
+      ? "▼"
+      : "▶"
+    : " ";
+
+  if (hasChildren) {
+    careBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      state.expanded[doc.id] = !state.expanded[doc.id];
+      renderTrees();
+    });
+  }
+
+  const iconCls = "doc-icon " + (doc.icon ? "has-icon" : "no-icon");
+  const icon = el("div", {
+    className: iconCls,
+    textContent: doc.icon ? doc.icon : "📄",
+  });
+
+  const labelCls = "label" + (doc.icon ? "has-icon" : "no-icon");
+  const label = el("div", {
+    className: labelCls,
+    textContent: doc.title,
+    style: "flex:1 1 auto; min-width:0;",
+  });
+  label.addEventListener("dbclick", (e) => {
+    e.stopPropagation();
+    inlineRename(doc.id, label);
+  });
+
+  const actions = el("div", { className: "tree-actions" });
+  const addBtn = el("div", {
+    className: "icon-btn ghost",
+    title: "Add child",
+    textContent: "➕",
+  });
+
+  addBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const id = createDoc({
+      title: "Untitled",
+      parentId: doc.id,
+    });
+    state.expanded[doc.id] = true;
+    toast("New page created", "success");
+    navigateTo(id);
+  });
+
+  const ddBtn = el("div", {
+    className: "dropdown-btn ghost",
+    title: "More",
+    textContent: "...",
+  });
+
+  ddBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    openDropdownMenu(ddBtn, doc, label);
+  });
+
+  actions.append(addBtn, ddBtn);
+
+  row.append(careBtn, icon, label, actions);
+
+  row.addEventListener("dragstart", handleDragStart);
+  row.addEventListener("dragover", handleDragOver);
+  row.addEventListener("dragleave", handleDragLeave);
+  row.addEventListener("drop", handleDrop);
+  row.addEventListener("dragend", handleDragEnd);
+
+  wrap.append(row);
+
+  if (state.expanded[doc.id]) {
+    const kidsWrap = el("div", {
+      className: "children",
+    });
+    childrenOf(doc.id).forEach((kid) => {
+      kidsWrap.appendChild(renderNode(kid, level + 1));
+    });
+    wrap.append(kidsWrap);
+  }
+  return wrap;
+}
