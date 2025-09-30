@@ -421,3 +421,51 @@ function renderNode(doc, level) {
   }
   return wrap;
 }
+
+let dragSrcId = null;
+function handleDragStart(e) {
+  dragSrcId = this.dataset.id;
+  e.dataTransfer.effectAllowed = "move";
+  e.dataTransfer.setData("text/plain", dragSrcId);
+}
+
+function handleDragOver(e) {
+  e.preventDefault();
+  const rect = this.getBoundingClientRect();
+  const y = e.clientY - rect.top;
+  this.classList.remove("dragover-top", "dragover-bottom", "dragover-inside");
+
+  if (y < rect.height * 0.25) {
+    this.classList.add("dragover-top");
+  } else if (y > rect.height * 0.75) {
+    this.classList.add("dragover-bottom");
+  } else {
+    this.classList.add("dragover-inside");
+  }
+}
+
+function handleDragLeave() {
+  this.classList.remove("dragover-top", "dragover-bottom", "dragover-inside");
+}
+
+function handleDrop(e) {
+  e.preventDefault();
+  const targetId = this.dataset.id;
+  const rect = this.getBoundingClientRect();
+  const y = e.clientY - rect.top;
+
+  let pos = "inside";
+  if (y < rect.height * 0.25) pos = "before";
+  else if (y > rect.height * 0.75) pos = "after";
+
+  moveDoc(dragSrcId, targetId, pos);
+  this.classList.remove("dragover-top", "dragover-bottom", "dragover-inside");
+  renderTrees();
+}
+
+function handleDragEnd() {
+  $$(".tree-row").forEach((row) =>
+    row.classList.remove("dragover-top", "dragover-bottom", "dragover-inside")
+  );
+  dragSrcId = null;
+}
