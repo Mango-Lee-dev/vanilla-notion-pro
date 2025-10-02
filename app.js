@@ -469,3 +469,43 @@ function handleDragEnd() {
   );
   dragSrcId = null;
 }
+
+function inlineRename(id, labelEl) {
+  const doc = findDoc(id);
+
+  if (!doc) return;
+
+  const input = el("input", {
+    value: doc.title,
+    className: "label-edit",
+  });
+
+  input.addEventListener("click", (e) => e.stopPropagation());
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      input.blur();
+    }
+
+    if (e.key === "Escape") {
+      e.preventDefault();
+      input.value = doc.title;
+      input.blur();
+    }
+  });
+
+  input.addEventListener("blur", (e) => {
+    const title = input.value.trim() || "Untitled";
+    updateDoc(id, { title });
+    renderTrees();
+
+    if (state.activeId === id) {
+      $("#titleInput").value = title;
+      updateDocMeta();
+    }
+  });
+
+  labelEl.appendChild(input);
+  input.focus();
+  input.select();
+}
