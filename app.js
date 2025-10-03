@@ -1,3 +1,9 @@
+const emojiPicker = $("#emojiPicker");
+const emojiGrid = $("#emojiGrid");
+const titleInput = $("#titleInput");
+const docMeta = $("#docMeta");
+const editor = $("#editor");
+
 const STORAGE_KEY = "vnotion:pro:final:v1";
 
 const defaultDocs = [
@@ -509,3 +515,97 @@ function inlineRename(id, labelEl) {
   input.focus();
   input.select();
 }
+
+function navigateTo(id) {
+  if (!id) location.hash = "#/documents";
+  else location.hash = "#documents/" + id;
+}
+
+function syncFromLocation() {
+  const m = location.hash.match(/#\/documents\/?([\w-]+)?/);
+  const id = m && m[1] ? m[1] : null;
+  state.activeId = id;
+  renderTrees();
+  renderPage();
+  save();
+}
+
+window.addEventListener("hashchange", syncFromLocation);
+
+function pathOf(id) {
+  const path = [];
+  let cur = findDoc(id);
+  while (cur) {
+    path.unshift(cur);
+    cur = cur.parentId ? findDoc(cur.parentId) : null;
+  }
+  return path;
+}
+
+function renderPage() {
+  if (!breadcrumbs || !titleInput || !editor || !starBtn || !docMeta) return;
+  if (!state.activeId) {
+    breadcrumbs.textContent = "No Page Selected";
+    titleInput.value = "Welcome to Mini Notion";
+    docMeta.textContent = "-";
+    editor.innerHTML =
+      "<p>좌측에서 문서를 선택하거나 새로운 페이지를 만들어 보세요.</p>";
+    starBtn.textContent = "☆";
+    return;
+  }
+
+  const doc = findDoc(state.activeId);
+  if (!doc) {
+    breadcrumbs.textContent = "Unknown Page";
+    titleInput.value = "Not found";
+    editor.innerHTML = "<p>존재하지 않는 페이지입니다.</p>";
+    return;
+  }
+
+  const path = pathOf(doc.activeId)
+    .map((d) => d.title)
+    .join(" / ");
+  breadcrumbs.textContent = path;
+  titleInput.value = doc.title;
+  editor.innerHTML = doc.content || "<p></p>";
+  starBtn.textContent = doc.starred ? "★" : "☆";
+  updateDocMeta();
+}
+
+function updateDocMeta() {
+  if (!docMeta) return;
+  const d = state.activeId ? findDoc(state.activeId) : null;
+  const ld = $("#lastEdited");
+  if (ld) ld.textContent = new Date().toLocaleString();
+  if (!d) {
+    docMeta.textContent = "-";
+    return;
+  }
+
+  docMeta.textContent = `Created ${fmtDate(d.createdAt)} • Updated ${fmtDate(
+    d.updatedAt
+  )}`;
+}
+
+function init() {
+  load();
+  if (state.isMobile) {
+    collapse();
+  } else {
+    resetWidth();
+  }
+  renderTrees();
+  renderTrash();
+
+  if (!location.hash) {
+    navigateTo("welcome");
+  } else {
+    syncFromLocation();
+  }
+
+  const ld = $("#lastEdited");
+  if (ld) ld.textContent = new Date().toLocaleString();
+  syncFromLocation();
+}
+
+init();
