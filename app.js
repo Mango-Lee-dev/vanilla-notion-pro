@@ -609,3 +609,27 @@ function init() {
 }
 
 init();
+
+titleInput.addEventListener("input", (e) => {
+  if (!state.activeId) return;
+  const t = titleInput.value.trim() || "Untitled";
+  updateDoc(state.activeId, { title: t });
+  renderTrees();
+  updateDocMeta();
+});
+
+let saveTimer = null;
+
+function saveEditorDebounced() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveEditor, 400);
+}
+
+function saveEditor() {
+  if (!state.activeId) return;
+  const html = editor.innerHTML;
+  updateDoc(state.activeId, { content: html });
+  updateDocMeta();
+}
+
+editor?.addEventListener("input", saveEditorDebounced);
