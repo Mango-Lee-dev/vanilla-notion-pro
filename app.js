@@ -656,8 +656,8 @@ function renderNode(doc, level) {
 let currentDropdown = null;
 
 function openDropdownMenu(anchorEl, doc, labelEl) {
-  closeDropdownMenu();
-  const rect = anchorEl.getBoundingClientRect();
+  closeDropdownMenu(); //  이전 메뉴 닫아주는 로직
+  const rect = anchorEl.getBoundingClientRect(); //  element의 크기를 가져옴 -> dropdown 메뉴의 위치를 계산하기 위해 사용
   const menu = el("div", { className: "dropdown-menu open" });
   const miRename = el("div", {
     className: "menu-item",
@@ -682,6 +682,7 @@ function openDropdownMenu(anchorEl, doc, labelEl) {
     closeDropdownMenu();
   });
 
+  // 즐겨찾기 버튼 클릭 시 상태 변경 -> renderTrees() 호출하여 트리 렌더링 -> 즐겨찾기 버튼 텍스트 변경 -> 메뉴 닫기
   miStar.addEventListener("click", (e) => {
     e.stopPropagation();
     updateDoc(doc.id, { starred: !doc.starred });
@@ -708,7 +709,7 @@ function openDropdownMenu(anchorEl, doc, labelEl) {
   menu.append(miRename, miStar, miDel, sep, editedBy);
   document.body.appendChild(menu);
   const top = rect.bottom + 6;
-  const left = Math.min(rect.left, window.innerWidth - 260);
+  const left = Math.min(rect.left, window.innerWidth - 260); //  메뉴의 위치를 계산하기 위해 사용 -> 메뉴가 화면 왼쪽에 위치하도록 함
   menu.style.top = top + "px";
   menu.style.left = left + "px";
 
