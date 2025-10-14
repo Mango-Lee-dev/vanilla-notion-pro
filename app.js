@@ -904,16 +904,17 @@ $("#toolbar")?.addEventListener("click", (e) => {
   }
 
   if (fmt) {
-    document.execCommand("formatBlock", false, fmt === "P" ? "P" : fmt);
+    document.execCommand("formatBlock", false, fmt === "P" ? "P" : fmt); //  SelectionAPI / RangeAPI 사용
     saveEditor();
     return;
   }
 });
 
+//  글 머리 기호 목록 버튼
 $("#bulletsBtn")?.addEventListener("click", () => {
   editor.focus();
   document.execCommand("insertUnorderedList");
-  saveEditor();
+  saveEditor(); //  새로고침을 해도 유지
 });
 
 $("#numbersBtn")?.addEventListener("click", () => {
