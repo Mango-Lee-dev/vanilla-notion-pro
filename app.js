@@ -1074,10 +1074,10 @@ starBtn?.addEventListener("click", () => {
 
 // New subpage button
 newChildBtn?.addEventListener("click", () => {
-  const pid = state.activeId || null;
-  const id = createDoc({ title: "Untitled", parentId: pid });
-  if (pid) state.expanded[pid] = true;
-  toast("New subpage created!", "success");
+  const pid = state.activeId || null; //  현재 선택된 문서의 id
+  const id = createDoc({ title: "Untitled", parentId: pid }); //  햔재 활성 문서 id를 부모로 하는 새 문서 생성
+  if (pid) state.expanded[pid] = true; //  현재 활성 문서의 하위 문서 확장 상태 변경 -> 바로 보이게
+  toast("New subpage created!", "success"); //  새 문서 생성 알림
   navigateTo(id);
 });
 
@@ -1089,9 +1089,9 @@ const actionCreateRoot = document.getElementById("actionCreateRoot");
 [actionAddPage, actionCreateRoot].forEach((btn) => {
   if (btn) {
     btn.addEventListener("click", () => {
-      const id = createDoc({ title: "Untitled", parentId: null });
-      toast("New page created!", "success");
-      navigateTo(id);
+      const id = createDoc({ title: "Untitled", parentId: null }); //  루트에 새 문서 생성
+      toast("New page created!", "success"); //  새 문서 생성 알림
+      navigateTo(id); //  새 문서로 이동
     });
   }
 });
