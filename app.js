@@ -1019,7 +1019,7 @@ function openEmojiPicker() {
   const btn = document.getElementById("iconBtn");
   if (!btn || !emojiPicker) return;
   const rect = btn.getBoundingClientRect();
-  emojiPicker.style.left = Math.min(rect.left, window.innerWidth - 340) + "px";
+  emojiPicker.style.left = Math.min(rect.left, window.innerWidth - 340) + "px"; //  초기 위치를 클릭한 버튼의 왼쪽으로 붙이기
   emojiPicker.style.top = rect.bottom + 8 + "px";
   emojiPicker.classList.add("open");
 }
@@ -1034,6 +1034,7 @@ document.getElementById("iconBtn")?.addEventListener("click", (e) => {
   openEmojiPicker();
 });
 
+//  이벤트 위임 활용 -> 이모지 팝오버 외부 클릭 시 닫히도록 함
 document.addEventListener("click", (e) => {
   if (
     emojiPicker &&
@@ -1068,7 +1069,7 @@ starBtn?.addEventListener("click", () => {
   updateDoc(state.activeId, { starred: !d.starred });
   const nd = findDoc(state.activeId);
   starBtn.textContent = nd.starred ? "★" : "☆";
-  renderTrees();
+  renderTrees(); //  사이드바에도 즐찾 아이콘 있음.
 });
 
 // New subpage button
