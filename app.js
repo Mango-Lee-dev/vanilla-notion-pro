@@ -1109,7 +1109,7 @@ function positionTrashPopover() {
   const bottom = window.matchMedia("(max-width:768px)").matches;
   if (bottom) {
     trashPopover.style.left =
-      Math.min(rect.left, window.innerWidth - 340) + "px";
+      Math.min(rect.left, window.innerWidth - 340) + "px"; //  popover의 좌표를 트리거의 좌표로 설정
     trashPopover.style.top = rect.bottom + 8 + "px";
   } else {
     trashPopover.style.left =
