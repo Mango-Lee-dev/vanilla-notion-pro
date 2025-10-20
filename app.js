@@ -1320,18 +1320,18 @@ document.addEventListener("keydown", (e) => {
 // Quick Search Modal (제목 기반 빠른 검색)
 // =====================
 
-const searchOverlay = $("#searchOverlay");
-const searchInput = $("#searchInput");
-const searchResults = $("#searchResults");
+const searchOverlay = $("#searchOverlay"); //  전체 오버레이(최상위 레이어)
+const searchInput = $("#searchInput"); //  검색 입력 필드
+const searchResults = $("#searchResults"); //  검색 결과 컨테이너
 
 let searchActiveIndex = -1; // ↑/↓로 현재 선택된 결과 인덱스
 
 function openSearch() {
   if (searchOverlay && searchInput) {
     searchOverlay.style.display = "grid";
-    searchInput.value = "";
-    renderSearchResults("");
-    searchInput.focus();
+    searchInput.value = ""; //  검색 입력 필드 초기화
+    renderSearchResults(""); //  검색 결과 렌더링
+    searchInput.focus(); //  검색 입력 필드 포커스
   }
 }
 
@@ -1340,60 +1340,63 @@ function closeSearch() {
 }
 
 function renderSearchResults(q) {
-  if (!searchResults) return;
+  if (!searchResults) return; //  검색 결과 컨테이너가 없으면 종료
   const items = state.docs.filter((d) =>
     d.title.toLowerCase().includes(q.toLowerCase())
-  );
-  searchResults.innerHTML = "";
+  ); //  모든 문서 중 제목에 검색어가 포함된 문서만 필터링
+  searchResults.innerHTML = ""; //  검색 결과 컨테이너 초기화
   items.forEach((d, i) => {
-    const row = el("div", { className: "trash-row" });
-    row.innerHTML = `<span>${d.icon || "📄"} ${d.title}</span>`;
+    const row = el("div", { className: "trash-row" }); //  검색 결과 행 생성
+    row.innerHTML = `<span>${d.icon || "📄"} ${d.title}</span>`; //  검색 결과 행 내용 설정
     row.addEventListener("click", () => {
-      closeSearch();
-      navigateTo(d.id);
+      //  검색 결과 행 클릭 시 이벤트 핸들러
+      closeSearch(); //  검색 결과 컨테이너 닫기
+      navigateTo(d.id); //  문서로 이동
     });
-    if (i === searchActiveIndex) row.style.background = "var(--panel-3)";
-    searchResults.appendChild(row);
+    if (i === searchActiveIndex) row.style.background = "var(--panel-3)"; //  현재 선택된 결과 행 배경색 변경
+    searchResults.appendChild(row); //  검색 결과 컨테이너에 행 추가
   });
 }
 
 searchInput?.addEventListener("input", () => {
-  searchActiveIndex = -1;
-  renderSearchResults(searchInput.value);
+  //  검색 입력 필드 입력 시 이벤트 핸들러
+  searchActiveIndex = -1; //  현재 선택된 결과 인덱스 초기화(기존 선택 상태 해제)
+  renderSearchResults(searchInput.value); //  검색 결과 렌더링
 });
 
 searchInput?.addEventListener("keydown", (e) => {
-  const items = searchResults?.children || [];
+  //  검색 입력 필드 키 이벤트 핸들러
+  const items = searchResults?.children || []; //  검색 결과 컨테이너의 자식 요소 가져오기
   if (e.key === "Escape") {
     e.preventDefault();
     closeSearch();
   }
   if (e.key === "ArrowDown") {
     e.preventDefault();
-    searchActiveIndex = Math.min(items.length - 1, searchActiveIndex + 1);
-    renderSearchResults(searchInput.value);
+    searchActiveIndex = Math.min(items.length - 1, searchActiveIndex + 1); //  다음 결과 선택
+    renderSearchResults(searchInput.value); //  검색 결과 렌더링
   }
   if (e.key === "ArrowUp") {
     e.preventDefault();
-    searchActiveIndex = Math.max(0, searchActiveIndex - 1);
+    searchActiveIndex = Math.max(0, searchActiveIndex - 1); //  이전 결과 선택
     renderSearchResults(searchInput.value);
   }
   if (e.key === "Enter") {
     e.preventDefault();
     if (items.length && searchActiveIndex >= 0) {
-      items[searchActiveIndex].click();
+      items[searchActiveIndex].click(); //  선택된 결과 행 클릭
     }
   }
 });
 
 document.addEventListener("keydown", (e) => {
   if (
-    searchOverlay &&
-    searchOverlay.style.display === "grid" &&
-    e.key === "Escape"
+    searchOverlay && //  전체 오버레이가 있는 경우
+    searchOverlay.style.display === "grid" && //  전체 오버레이가 표시된 경우
+    e.key === "Escape" //  Escape 키가 눌린 경우
   ) {
-    e.preventDefault();
-    closeSearch();
+    e.preventDefault(); //  이벤트 버블링 방지
+    closeSearch(); //  전체 오버레이 닫기
   }
 });
 
