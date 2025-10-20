@@ -1228,10 +1228,10 @@ document.addEventListener("input", (e) => {
 // Favorites modal (즐겨찾기 모달)
 // =====================
 
-const favoritesOverlay = $("#favoritesOverlay");
-const favoritesListModal = $("#favoritesListModal");
-const openFavoritesModalBtn = $("#openFavoritesModal");
-const favoritesCloseBtn = $("#favoritesClose");
+const favoritesOverlay = $("#favoritesOverlay"); //  전체 오버레이
+const favoritesListModal = $("#favoritesListModal"); //  즐겨찾기 목록 컨테이너
+const openFavoritesModalBtn = $("#openFavoritesModal"); //  즐겨찾기 모달 열기 버튼
+const favoritesCloseBtn = $("#favoritesClose"); //  즐겨찾기 모달 닫기 버튼
 
 function openFavoritesModal() {
   buildFavoritesModal();
@@ -1243,68 +1243,76 @@ function closeFavoritesModal() {
 }
 
 function buildFavoritesModal() {
-  if (!favoritesListModal) return;
-  favoritesListModal.innerHTML = "";
+  if (!favoritesListModal) return; //  즐겨찾기 목록 컨테이너가 없으면 종료
+  favoritesListModal.innerHTML = ""; //  즐겨찾기 목록 컨테이너 초기화
 
-  const favs = state.docs
+  const favs = state.docs //  모든 문서 중 즐겨찾기 문서만 필터링
     .filter((d) => d.starred)
-    .sort((a, b) => a.title.localeCompare(b.title));
+    .sort((a, b) => a.title.localeCompare(b.title)); //  제목 순서대로 정렬(알파벳 순)
 
+  //  즐겨찾기 문서가 없으면 모달 내부에 메시지 표시
   if (favs.length === 0) {
     favoritesListModal.innerHTML =
-      '<div class="muted" style="padding:12px">No favorites yet</div>';
-    return;
+      '<div class="muted" style="padding:12px">No favorites yet</div>'; //  메시지 표시
+    return; //  종료
   }
 
+  //  즐겨찾기 문서 목록 렌더링
   favs.forEach((doc) => {
-    const row = el("div", { className: "fav-row" });
+    const row = el("div", { className: "fav-row" }); //  즐겨찾기 문서 행 생성
     const ico = el("div", {
+      //  문서 아이콘 생성
       className: "doc-icon " + (doc.icon ? "has-icon" : "no-icon"),
-      textContent: doc.icon || "∅",
+      textContent: doc.icon || "∅", //  문서 아이콘 표시
     });
-    const title = el("div", { textContent: doc.title, style: "flex:1" });
-    const acts = el("div", { className: "fav-actions" });
+    const title = el("div", { textContent: doc.title, style: "flex:1" }); //  문서 제목 표시
+    const acts = el("div", { className: "fav-actions" }); //  문서 액션 컨테이너 생성
     const unstar = el("div", {
-      className: "icon-btn",
-      title: "Unstar",
-      textContent: "☆",
+      //  즐겨찾기 해제 버튼 생성
+      className: "icon-btn", //  아이콘 버튼 클래스 적용
+      title: "Unstar", //  툴팁 표시
+      textContent: "☆", //  즐겨찾기 해제 아이콘 표시
     });
 
     unstar.addEventListener("click", (e) => {
-      e.stopPropagation();
-      updateDoc(doc.id, { starred: false });
+      //  즐겨찾기 해제 버튼 클릭 시 이벤트 핸들러
+      e.stopPropagation(); //  이벤트 버블링 방지
+      updateDoc(doc.id, { starred: false }); //  문서 즐겨찾기 상태 변경
       if (state.activeId === doc.id) {
-        const d = findDoc(doc.id);
-        if (starBtn) starBtn.textContent = d.starred ? "★" : "☆";
+        //  현재 선택된 문서가 즐겨찾기 문서인 경우
+        const d = findDoc(doc.id); //  문서 정보 가져오기
+        if (starBtn) starBtn.textContent = d.starred ? "★" : "☆"; //  즐겨찾기 버튼 텍스트 변경
       }
-      renderTrees();
-      buildFavoritesModal();
+      renderTrees(); //  트리 렌더링
+      buildFavoritesModal(); //  즐겨찾기 모달 다시 렌더링
     });
 
-    row.append(ico, title, acts);
-    acts.append(unstar);
+    row.append(ico, title, acts); //  문서 아이콘, 제목, 액션 컨테이너 추가
+    acts.append(unstar); //  즐겨찾기 해제 버튼 추가
     row.addEventListener("click", () => {
-      closeFavoritesModal();
-      navigateTo(doc.id);
+      //  문서 행 클릭 시 이벤트 핸들러
+      closeFavoritesModal(); //  즐겨찾기 모달 닫기
+      navigateTo(doc.id); //  문서로 이동
     });
     favoritesListModal.appendChild(row);
   });
 }
 
-openFavoritesModalBtn?.addEventListener("click", openFavoritesModal);
-favoritesCloseBtn?.addEventListener("click", closeFavoritesModal);
+openFavoritesModalBtn?.addEventListener("click", openFavoritesModal); //  즐겨찾기 모달 열기 버튼 클릭 시 이벤트 핸들러
+favoritesCloseBtn?.addEventListener("click", closeFavoritesModal); //  즐겨찾기 모달 닫기 버튼 클릭 시 이벤트 핸들러
 favoritesOverlay?.addEventListener("click", (e) => {
-  if (e.target === favoritesOverlay) closeFavoritesModal();
+  if (e.target === favoritesOverlay) closeFavoritesModal(); //  즐겨찾기 모달 오버레이 클릭 시 즐겨찾기 모달 닫기
 });
 
 document.addEventListener("keydown", (e) => {
+  //  키보드 이벤트 핸들러
   if (
-    favoritesOverlay &&
-    favoritesOverlay.style.display === "grid" &&
-    e.key === "Escape"
+    favoritesOverlay && //  즐겨찾기 모달 오버레이가 있는 경우
+    favoritesOverlay.style.display === "grid" && //  즐겨찾기 모달 오버레이가 표시된 경우
+    e.key === "Escape" //  Escape 키가 눌린 경우
   ) {
-    e.preventDefault();
-    closeFavoritesModal();
+    e.preventDefault(); //  이벤트 버블링 방지
+    closeFavoritesModal(); //  즐겨찾기 모달 닫기
   }
 });
 
