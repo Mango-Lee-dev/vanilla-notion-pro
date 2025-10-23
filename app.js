@@ -1419,22 +1419,25 @@ const themeToggle = $("#themeToggle"); // "Use light theme" 체크박스
 
 function openSettings() {
   // 현재 테마 반영: 'light'면 체크, 'dark'면 체크 해제
-  currentTheme = loadTheme();
+  currentTheme = loadTheme(); // 현재 테마 갱신
   if (themeToggle) themeToggle.checked = currentTheme === "light";
-  if (settingsOverlay) settingsOverlay.style.display = "grid";
+  if (settingsOverlay) settingsOverlay.style.display = "grid"; // 모달 표시(CSS Grid로 중앙 정렬, 자연스러운 배치)
 }
 
 // 사이드바/네비바에 중복 ID(actionSettings) → 모두 바인딩
+//  모든 설정 버튼에 클릭 이벤트 핸들러 추가
 document.querySelectorAll("#actionSettings").forEach((el) => {
   el.addEventListener("click", openSettings);
 });
 
+//  설정 모달 닫기 버튼 클릭 시 이벤트 핸들러
 $("#settingsClose")?.addEventListener("click", () => {
   if (settingsOverlay) settingsOverlay.style.display = "none";
 });
 
+//  빈 화면을 클릭하면 설정 모달 닫기
 settingsOverlay?.addEventListener("click", (e) => {
-  if (e.target === settingsOverlay) settingsOverlay.style.display = "none";
+  if (e.target === settingsOverlay) settingsOverlay.style.display = "none"; //  e.target이 설정 모달인 경우 모달 닫기
 });
 
 document.addEventListener("keydown", (e) => {
@@ -1451,9 +1454,9 @@ document.addEventListener("keydown", (e) => {
 // ✔ 라이트/다크 즉시 전환
 themeToggle?.addEventListener("change", () => {
   const next = themeToggle.checked ? "light" : "dark";
-  currentTheme = next;
-  applyTheme(next);
-  saveTheme(next);
+  currentTheme = next; // 현재 테마 갱신
+  applyTheme(next); // 테마 적용
+  saveTheme(next); // 테마 저장(localStorage에 저장)
 });
 
 // Export / Import (백업/복원)
