@@ -1461,26 +1461,26 @@ themeToggle?.addEventListener("change", () => {
 
 // Export / Import (백업/복원)
 $("#exportBtn")?.addEventListener("click", () => {
-  const data = localStorage.getItem(STORAGE_KEY) || "{}";
+  const data = localStorage.getItem(STORAGE_KEY) || "{}"; //  STORAGE_KEY에 저장된 데이터 가져오기, 없으면 빈 객체 반환(run time error 방지)
   const blob = new Blob([data], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
   a.download = "notion-export.json";
   a.click();
-  URL.revokeObjectURL(url);
+  URL.revokeObjectURL(url); //  URL 객체 해제(메모리 해제)
 });
 
 $("#importFile")?.addEventListener("change", (e) => {
   const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
+  if (!file) return; //  file이 없으면 종료
+  const reader = new FileReader(); //  FileReader 객체 생성 (비동기 파일 읽기)
   reader.onload = () => {
     try {
       localStorage.setItem(STORAGE_KEY, reader.result);
-      load();
-      renderTrees();
-      renderPage();
+      load(); //  load() 함수 호출(localStorage에 저장된 데이터 복원)
+      renderTrees(); //  renderTrees() 함수 호출(문서 트리 렌더링)
+      renderPage(); //  renderPage() 함수 호출(페이지 렌더링)
       toast("Import complete", "success");
     } catch (err) {
       toast("Import failed", "error");
