@@ -1502,18 +1502,18 @@ function confirmModal(message, onConfirm) {
   if (t) t.textContent = "Confirm";
   if (m) m.textContent = message;
   if (modalOverlay) modalOverlay.style.display = "flex";
-  modalResolver = onConfirm;
+  modalResolver = onConfirm; //  onConfirm 콜백 함수 저장
 }
 
 $("#modalCancel")?.addEventListener("click", () => {
   if (modalOverlay) modalOverlay.style.display = "none";
-  modalResolver = null;
+  modalResolver = null; //  modalResolver 초기화
 });
 
 $("#modalConfirm")?.addEventListener("click", () => {
   if (modalOverlay) modalOverlay.style.display = "none";
-  if (modalResolver) modalResolver();
-  modalResolver = null;
+  if (modalResolver) modalResolver(); //  onConfirm 콜백 함수 실행
+  modalResolver = null; //  modalResolver 초기화(중복 실행 방지)
 });
 
 // =====================
