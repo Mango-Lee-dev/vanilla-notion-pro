@@ -1520,6 +1520,7 @@ $("#modalConfirm")?.addEventListener("click", () => {
 // Keyboard shortcuts (핫키)
 // =====================
 
+//  키 입력 이벤트는 전역적으로 처리되므로, 모든 요소에서 동작하도록 이벤트 리스너 추가
 document.addEventListener("keydown", (e) => {
   const meta = e.ctrlKey || e.metaKey;
 
@@ -1532,9 +1533,9 @@ document.addEventListener("keydown", (e) => {
   if (meta && e.altKey && e.key.toLowerCase() === "n") {
     // ⌘/Ctrl + Alt + N → 현재 페이지의 하위로 새 문서
     e.preventDefault();
-    const pid = state.activeId || null;
-    const id = createDoc({ title: "Untitled", parentId: pid });
-    if (pid) state.expanded[pid] = true;
+    const pid = state.activeId || null; // 현재 활성화된 문서의 id 가져오기
+    const id = createDoc({ title: "Untitled", parentId: pid }); //  createDoc() 함수 호출(새 문서 생성)
+    if (pid) state.expanded[pid] = true; //  pid가 있으면 pid의 확장 상태를 true로 설정
     navigateTo(id);
   }
 
